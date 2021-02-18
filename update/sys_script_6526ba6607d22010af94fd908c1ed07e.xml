@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_58872_needit_needit</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>NeedIt When needed field date</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+/*
+	//rightnow 変数は現在の時刻を保存します
+	var rightnow = new GlideDateTime();
+	//「when_neededの日付」のGlideDateTimeオブジェクトを作成します
+	var whenNeeded = new GlideDateTime(current.u_when_needed);
+	
+	//「when_neededの日付」が今より前の場合は、データベースに
+	//レコードを書き込まないでください
+	// エラーメッセージを画面に出力
+	if(whenNeeded.before(rightnow)){
+		gs.addErrorMessage("When neededの日付を過去にすることはできません。 リクエストはデータベースに保存されていません。 .");
+		current.setAbortAction(true);
+	}
+	
+//チャレンジ：当日リクエストを許可しない
+// rightnowとwhenNeededの日付部分を取得します（タイムスタンプなし） 
+var today = rightnow.getLocalDate();
+var istoday = whenNeeded.getLocalDate();
+
+//"today"と"istoday"を比較して、同じ日かどうかを確認します 
+if(today.compareTo(istoday) == 0){
+	gs.addErrorMessage("当日はNeedItリクエストを送信できません。 ");
+	current.setAbortAction(true);
+}
+*/
+
+	//上記の内容をインクルードスクリプトを利用する方法に変更
+	// NeedItUtilsクラスをインスタンス化します。 isDatePastメソッドを呼び出し、
+	//u_when_needed値を渡します。 
+	var niutils = new NeedItUtils();
+	var isToday = niutils.isDateToday(current.u_when_needed);  //whwn_needed今日の日付か？
+
+	// isDateTodayメソッドがtrueを返す場合、whwn_neededは今日の日付なので、処理を中止します。
+	if(isToday == true){
+		gs.addErrorMessage("You cannot submit NeedIt requests for today.");
+		current.setAbortAction(true);
+	}else{
+		var isPast = niutils.isDatePast(current.u_when_needed);  //whwn_neededが過去日付か？
+
+		// isDatePastメソッドがtrueを返す場合、whwn_neededは過去の日時なので、処理を中止します。
+		if(isPast == true){
+			gs.addErrorMessage("When needed date cannot be in the past.  Your request has not been saved to the database.");
+			current.setAbortAction(true);
+		}
+		
+	}
+
+		
+	
+//ログメッセージのテスト
+gs.info("インフォメーションメッセージ from NeedIt アプリケーション");
+gs.warn("警告メッセージ from NeedIt アプリケーション");
+gs.error("エラーメッセージ from NeedIt アプリケーション");
+gs.debug("デバッグメッセージ from NeedIt アプリケーション");
+	
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-16 07:25:57</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>6526ba6607d22010af94fd908c1ed07e</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>NeedIt When needed field date</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_6526ba6607d22010af94fd908c1ed07e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-18 01:49:55</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=6526ba6607d22010af94fd908c1ed07e"/>
+</record_update>

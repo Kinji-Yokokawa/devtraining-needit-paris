@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_58872_needit.NeedItUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>NeedItアプリケーション用のUtilsスクリプトインクルード。</description>
+        <name>NeedItUtils</name>
+        <script><![CDATA[var NeedItUtils = Class.create();
+NeedItUtils.prototype = {
+    initialize: function() {
+    },
+
+	isDatePast: function(strDate){
+		// 現在の日付と渡された日付のGlideDateTimeオブジェクトを作成します 
+		var rightnow = new GlideDateTime();
+		var testdate = new GlideDateTime(strDate);
+		gs.info("［isDatePastログ］rightnow = " + rightnow);
+		gs.info("［isDatePastログ］testdate = " + testdate);
+		
+		// テスト日付が今より前の場合はtrueを返し、そうでない場合はfalseを返します 
+		if (testdate.before(rightnow)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+	
+	//チャレンジ
+	isDateToday: function(strDate){
+		
+		// 現在の日付と渡された日付のGlideDateTimeオブジェクトを作成します 
+		var rightnow = new GlideDateTime();
+		var testdate = new GlideDateTime(strDate);
+		gs.info("［isDateTodayログ］rightnow = " + rightnow);
+		gs.info("［isDateTodayログ出力］testdate = " + testdate);
+		
+		// rightnowとtestdateの日付部分を取得します（タイムスタンプなし） 
+		var today = rightnow.getLocalDate();
+		var istoday = testdate.getLocalDate();
+		gs.info("［isDateTodayログ］today = " + today);
+		gs.info("［isDateTodayログ出力］istoday = " + istoday);
+	
+		// todayとistodayを比較して、同じ日かどうかを確認します 
+		if(today.compareTo(istoday) == 0){
+			return true;
+		}
+		else {
+			return false;
+		}
+	},
+	
+    type: 'NeedItUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2021-02-18 01:24:57</sys_created_on>
+        <sys_id>10d67f03079a6010af94fd908c1ed0d7</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>NeedItUtils</sys_name>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_include_10d67f03079a6010af94fd908c1ed0d7</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2021-02-18 02:11:14</sys_updated_on>
+    </sys_script_include>
+</record_update>
